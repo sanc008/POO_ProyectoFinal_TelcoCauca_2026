@@ -8,7 +8,7 @@ private:
 	
 public:
 	SwitchFibra(std::string _id, std::string _tipo, int puertosActivos);
-	~SwitchFibra();
+	virtual ~SwitchFibra() = default;
 	void transmitir ( ) override;
 
 };

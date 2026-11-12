@@ -59,6 +59,9 @@ path=Fuentes\DispositivoComunicacion.cpp
 cursor=18:0
 open=true
 [source]
+path=Fuentes\ServidorCentral.cpp
+cursor=0:0
+[source]
 path=Fuentes\SwitchFibra.cpp
 cursor=11:1
 open=true
@@ -102,6 +105,15 @@ open=true
 [header]
 path=Cabeceras\SwitchFibra.h
 cursor=0:0
+[header]
+path=Cabeceras\ServidorCentral.h
+cursor=0:0
+[header]
+path=Cabeceras\TramaTelemetria.h
+cursor=0:0
+[header]
+path=Cabeceras\ExcepcionSocket.h
+cursor=0:0
 [config]
 name=Debug
 toolchain=
@@ -129,7 +141,7 @@ enable_lto=0
 headers_dirs=Cabeceras
 linking_extra=
 libraries_dirs=
-libraries=
+libraries=ws2_32
 libs_to_use=
 strip_executable=0
 console_program=1
@@ -161,7 +173,7 @@ enable_lto=0
 headers_dirs=Cabeceras
 linking_extra=
 libraries_dirs=
-libraries=
+libraries=ws2_32
 libs_to_use=
 strip_executable=2
 console_program=1

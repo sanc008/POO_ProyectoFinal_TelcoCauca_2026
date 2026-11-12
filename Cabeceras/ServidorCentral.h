@@ -36,13 +36,13 @@ private:
 	bool servidorActivo;
 	
 	// =========================================================
-	// Métodos privados que ejecutarán los hilos
+	// MÃˆtodos privados que ejecutarÂ·n los hilos
 	// =========================================================
 	
 	// Bucle para TCP: ejecuta accept() y lanza un hilo por cliente
 	void aceptarConexionesTCP();
 	
-	// Atiende a un cliente TCP específico de forma concurrente
+	// Atiende a un cliente TCP especÃŒfico de forma concurrente
 	void atenderClienteTCP(SocketNativo clienteSocket, int idCliente);
 	
 	// Bucle para UDP: escucha datagramas de sensores con recvfrom()
