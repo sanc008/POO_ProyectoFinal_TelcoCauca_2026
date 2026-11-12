@@ -14,7 +14,7 @@
 #include <unistd.h>
 #endif
 
-// Variables globales para sincronizar impresiones en consola (del Módulo 4)
+
 extern std::mutex mtx_consola; 
 
 ServidorCentral::ServidorCentral(unsigned short pTCP, unsigned short pUDP) 
@@ -59,12 +59,12 @@ void ServidorCentral::iniciar() {
 	if (bind(socketUDP, (struct sockaddr*)&dirUDP, sizeof(dirUDP)) < 0)
 		throw ExcepcionSocket("Error en bind() UDP");
 	
-	// Requisito Lab 333: Timeout de Recepción UDP (3 segundos)
+
 #ifdef _WIN32
-	DWORD timeout = 3000; // En Windows se mide en milisegundos
+	DWORD timeout = 3000; // milisegundos
 	setsockopt(socketUDP, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
 #else
-	struct timeval tv{3, 0}; // En POSIX puro (Linux/Mac)
+	struct timeval tv{3, 0};
 	setsockopt(socketUDP, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 #endif
 	
@@ -85,9 +85,9 @@ void ServidorCentral::aceptarConexionesTCP() {
 			std::lock_guard<std::mutex> lock(mtx_consola);
 			std::cout << "[TCP] Cliente remoto " << idCliente << " conectado exitosamente.\n";
 			
-			// Requisito Módulo 5: Generar un hilo dedicado por cliente
+			// Hilo dedicado por cliente
 			std::thread hiloCliente(&ServidorCentral::atenderClienteTCP, this, clienteSocket, idCliente);
-			hiloCliente.detach(); // Se independiza para atender varios a la vez
+			hiloCliente.detach(); // Se saca del hilo principal para tener varios a la vez
 			idCliente++;
 		}
 	}
@@ -95,7 +95,7 @@ void ServidorCentral::aceptarConexionesTCP() {
 
 void ServidorCentral::atenderClienteTCP(SocketNativo clienteSocket, int idCliente) {
 	char buffer[256];
-	// recv() es la primitiva exigida para TCP
+	
 	int bytesLeidos = recv(clienteSocket, buffer, sizeof(buffer) - 1, 0);
 	
 	if (bytesLeidos > 0) {
@@ -117,7 +117,7 @@ void ServidorCentral::recibirTelemetriaUDP() {
 		sockaddr_in cli_addr{};
 		socklen_t len = sizeof(cli_addr);
 		
-		// recvfrom() bloqueante (máximo 3 segundos por el timeout)
+
 		int bytes = recvfrom(socketUDP, reinterpret_cast<char*>(&tramaRecibida), sizeof(tramaRecibida), 0, (sockaddr*)&cli_addr, &len);
 		
 		if (bytes == sizeof(TramaTelemetria)) {
@@ -128,8 +128,7 @@ void ServidorCentral::recibirTelemetriaUDP() {
 		else if (bytes < 0) {
 			// Manejo de Timeout Defensivo
 			std::lock_guard<std::mutex> lock(mtx_consola);
-			// No hacemos throw aquí para que el bucle siga intentando recibir, 
-			// pero demostramos la validación exigida.
+
 		}
 	}
 }

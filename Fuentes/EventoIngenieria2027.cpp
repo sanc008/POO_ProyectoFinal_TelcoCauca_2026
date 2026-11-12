@@ -12,10 +12,11 @@ void EventoIngenieria2027::registrarEvento(const std::string& evento){
 }
 void EventoIngenieria2027::mostrarEvento(){
 	int i=1;
+	    std::cout<<"\n================ AGENDA 2027 =================\n";
 		for(const std::string& evento:eventos){
 		std::cout<<"\n[EVENTO N"<<i<<"] "<<evento<<"\n";
 		++i;
 	}
-
+		std::cout<<"\n===============================================\n";
 
 }

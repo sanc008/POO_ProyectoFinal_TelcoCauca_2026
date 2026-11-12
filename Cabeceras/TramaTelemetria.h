@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-// Seg˙n Unidad 9.2: AlineaciÛn estricta a 1 byte (sin padding)
+
 #pragma pack(push, 1)
 struct TramaTelemetria {
 	std::uint32_t idEstacion;      

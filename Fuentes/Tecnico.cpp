@@ -14,9 +14,9 @@ void Tecnico::mostrarInformacion(){
 }
 std::ostream&operator<<(std::ostream&tec, const Tecnico& t){
 	tec<<"\n============Info. Tecnico============\n"
-		<<"\nNombre: "<<t.nombre
-	    <<"\nEspecialidad: "<<t.especialidad
-		<<"\nID Antena asociada: "<<t.idAntena
+		<<"\n[Nombre] "<<t.nombre
+	    <<"\n[Especialidad] "<<t.especialidad
+		<<"\n[ID Antena asociada] "<<t.idAntena
 		<<"\n\n====================================\n\n";
 	return tec;
 

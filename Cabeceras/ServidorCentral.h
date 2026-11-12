@@ -25,24 +25,23 @@ private:
 	unsigned short puertoTCP;
 	unsigned short puertoUDP;
 	
-	// Descriptores de los sockets (API POSIX)
+	
 	SocketNativo socketTCP;
 	SocketNativo socketUDP;
 	
-	// Hilos maestros para escuchar permanentemente en segundo plano
+	// Hilos maestros 
 	std::thread hiloEscuchaTCP;
 	std::thread hiloEscuchaUDP;
 	
 	bool servidorActivo;
 	
-	// =========================================================
-	// MÃˆtodos privados que ejecutarÂ·n los hilos
-	// =========================================================
 	
+	// Métodos privados que ejecutarán los hilos
+
 	// Bucle para TCP: ejecuta accept() y lanza un hilo por cliente
 	void aceptarConexionesTCP();
 	
-	// Atiende a un cliente TCP especÃŒfico de forma concurrente
+	// Atiende a un cliente TCP específico de forma concurrente
 	void atenderClienteTCP(SocketNativo clienteSocket, int idCliente);
 	
 	// Bucle para UDP: escucha datagramas de sensores con recvfrom()

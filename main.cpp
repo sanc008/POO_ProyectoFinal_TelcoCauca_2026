@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <string>
 
-// Cabeceras exactas
+// Cabeceras red
 #include "Tecnico.h"
 #include "Antena.h"
 #include "Torre.h"
@@ -34,7 +34,7 @@ std::mutex mtx_consola;
 void procesarDispositivo(DispositivoComunicacion* dev) {
 	try {
 		if (dev == nullptr) {
-			throw std::invalid_argument("[INVALID ARGUMENT] Puntero nulo detectado.");
+			throw std::invalid_argument("[Puntero nulo detectado en la red]\n");
 		}
 		
 		{
@@ -48,7 +48,7 @@ void procesarDispositivo(DispositivoComunicacion* dev) {
 	} 
 	catch (const std::exception& e) {
 		std::lock_guard<std::mutex> lock(mtx_consola);
-		std::cerr << "\n[HILO " << std::this_thread::get_id() << " - ERROR]: " << e.what() << "\n";
+		std::cerr << "\n[HILO " << std::this_thread::get_id() << " - ERROR] " << e.what() << "\n";
 	}
 }
 
@@ -72,12 +72,10 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 #endif
-	
-	// =====================================================
-	// PARTE 1: INFRAESTRUCTURA FÕSICA
-	// =====================================================
-	std::cout << "--- PARTE 1: INFRAESTRUCTURA FISICA ---\n";
-	
+	//===========================================================================================
+	//MODUlO 1
+	std::cout << "\n=====================INFRAESTRUCTURA FISICA =================\n";
+
 	// Tecnicos
 	Tecnico tecnico1("Manuel Castrillon", "Redes Digitales");
 	Tecnico tecnico2("Esteban Gomez", "Mantenimeinto");
@@ -93,23 +91,24 @@ int main(int argc, char *argv[]) {
 	
 	antena1.asociarTecnico(&tecnico1);
 	antena2.asociarTecnico(&tecnico2);
-	
 	Antena*nula(nullptr);
 	
-	// Torre
+	// Bloque de seguridad para las antenas agregadas a la torre
 	try{
 		torrePrincipal.agregarAntena(&antena1);
 		torrePrincipal.agregarAntena(&antena2);
 		torrePrincipal.agregarAntena(nula);
 	}catch(const std::invalid_argument&e ){
-		std::cerr<<"[ERROR TORRE] "<<e.what();
+		std::cerr<<"\n[ERROR TORRE] "<<e.what()<<"\n";
 	}
+	std::cout<<torrePrincipal;
 	
-	// =====================================================
-	// PARTE 2: NODO DE RED INTELIGENTE
-	// =====================================================
-	std::cout << "\n--- PARTE 2: NODO DE RED INTELIGENTE ---\n";
 	
+	// ========================================================================================
+	std::cout << "\n===================== Nodo De Red INteligente ================\n";
+	
+	
+	//bloque de monitoreo
 	try {
 		NodoRedInteligente nodo1("192.168.1.20", "AA:BB:CC", true, "Temperatura", 35.5, 1, 40);
 		NodoRedInteligente nodo2("192.168.1.21", "AA:BB:DD", true, "Temperatura", 60.0, 2, 25);
@@ -126,24 +125,26 @@ int main(int argc, char *argv[]) {
 		std::cerr<<"[ERROR NODO]"<<e.what()<<"\n";
 	}
 	
-	// =====================================================
-	// MODULO 5: ARRANQUE DEL SERVIDOR CENTRAL
-	// =====================================================
-	std::cout << "\n--- INICIALIZANDO RED ---\n";
-	std::cout << "Tamano de TramaTelemetria: " << sizeof(TramaTelemetria) << " bytes\n";
+		
+
+	std::cout << "\n===================== INICIALIZANDO RED ====================\n";
+	
+	std::cout << "\n[Tamano de TramaTelemetria]: " << sizeof(TramaTelemetria) << " bytes\n";
 	ServidorCentral servidor(8080, 8081);
 	try {
 		servidor.iniciar();
 	} catch (const ExcepcionSocket& e) {
-		std::cerr << "[ERROR SERVIDOR]: " << e.what() << "\n";
+		std::cerr << "\n[ERROR SERVIDOR]: " << e.what() << "\n";
 	}
 	// Pausa para dar tiempo a los puertos a abrirse
 	std::this_thread::sleep_for(std::chrono::milliseconds(300)); 
 	
-	// =====================================================
-	// PARTE 3: POLIMORFISMO Y MULTIHILO
-	// =====================================================
-	std::cout << "\n--- PARTE 3: SUPERVISION EN HILOS ---\n";
+	
+	// POLIMORFISMO Y MULTIHILO
+
+	
+	std::cout << "\n===================== SUPERVISION DE HILOS =================\n";
+	
 	//Vector de red
 	std::vector<DispositivoComunicacion*> red;
 	
@@ -163,17 +164,15 @@ int main(int argc, char *argv[]) {
 		hilosRed.push_back(std::thread(procesarDispositivo, red[i]));
 	}
 	
-	// ORDEN SECUENCIAL: Esperamos a que terminen los hilos de red ANTES de pasar a los eventos
+	// orden secuencia de lso hilos
 	for (auto& hilo : hilosRed) {
 		if (hilo.joinable()) {
 			hilo.join();
 		}
 	}
-	
-	// =====================================================
-	// PARTE 4: EVENTOS DE INGENIERIA 2027
-	// =====================================================
-	std::cout << "\n--- PARTE 4: EVENTOS DE INGENIERIA ---\n";
+	//======================================================================
+
+	std::cout << "\n=================== EVENTOS DE INGENIERIA ====================";
 	//Eventos ingenieria
 	EventoIngenieria2027 misEventos;
 	misEventos.registrarEvento("NVIDIA GTC 2027");
@@ -187,10 +186,9 @@ int main(int argc, char *argv[]) {
 		hiloEventos.join();
 	}
 	
-	// =====================================================
-	// FINALIZACI”N Y LIMPIEZA
-	// =====================================================
+	//======================================================================
 	//Liberacion de memoria segura
+	std::cout<<"\n=====================LIBERANDO MEMORIA =================\n";
 	for (auto& dev : red) {
 		if (dev != nullptr) {
 			delete dev; 
@@ -198,9 +196,11 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	red.clear();
+	std::cout<<"\n===================== APAGANDO SERVIDOR =================\n";
 	
 	// Apagar sockets
 	servidor.detener();
+	std::cout<<"\n===================== SISTEMA APAGADO =================\n";
 	
 #ifdef _WIN32
 	WSACleanup();
