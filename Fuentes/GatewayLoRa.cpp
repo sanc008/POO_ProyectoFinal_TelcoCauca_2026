@@ -5,7 +5,7 @@ GatewayLoRa::GatewayLoRa(std::string _id, float _freq):DispositivoComunicacion(_
 }
 
 void GatewayLoRa::transmitir(){
-	std::cout<<"\n\n[GatewayLoRa "<<idDispositivoComunicacion<<"]"<<"Enlace correcto";
+	std::cout<<"[GatewayLoRa "<<idDispositivoComunicacion<<"]"<<"Enlace correcto";
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }

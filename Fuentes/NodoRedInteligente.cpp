@@ -15,11 +15,11 @@ NodoRedInteligente::~NodoRedInteligente(){
 
 std::ostream&operator<<(std::ostream&z, const NodoRedInteligente&n) {
     
-    z<<"================Nodo Red Inteligente================"
+    z<<"\n================Nodo Red Inteligente================"
         <<"\n[Direccion IP del Nodo] "<<n.direccionIP 
         <<"\n[Direccion MAC] "<<n.direccionMAC
         <<"\n[Estado operativo] "<<n.estadoOperativo<<"\n"
-        <<"====================================================";
+        <<"====================================================\n";
         return z;
 }
 

@@ -16,7 +16,7 @@ private:
 	public:
 	Torre(int idTorre, const std::string& ubicacion, double alturaMetros);
 	~Torre();
-
+	void agregarAntena(Antena*s);
 };
 
 #endif

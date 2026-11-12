@@ -9,7 +9,7 @@ SwitchFibra::~SwitchFibra() {
 }
 
 void SwitchFibra::transmitir ( ) {
-	std::cout<<"\n\n[Switch "<<idDispositivoComunicacion<<"]"<<"Conexion exitosa";
+	std::cout<<" [Switch "<<idDispositivoComunicacion<<"]"<<"Conexion exitosa";
 	std::this_thread::sleep_for(std::chrono::milliseconds(150));
 }
 

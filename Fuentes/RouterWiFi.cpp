@@ -4,6 +4,6 @@ RouterWiFi::RouterWiFi(std::string _id, int _canales):DispositivoComunicacion(_i
 
 
 void RouterWiFi::transmitir(){
-	std::cout<<"\n\n[RouterWiFi "<<idDispositivoComunicacion<<" ]"<<"Conexion exitosa";
+	std::cout<<" [RouterWiFi "<<idDispositivoComunicacion<<" ]"<<"Conexion exitosa";
 	std::this_thread::sleep_for(std::chrono::milliseconds(150));
 }

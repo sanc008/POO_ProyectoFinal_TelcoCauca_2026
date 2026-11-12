@@ -7,5 +7,12 @@ Torre::Torre(int idTorre, const std::string& ubicacion, double alturaMetros):
 	}
 }
 Torre::~Torre(){
-	
+}
+
+
+void Torre::agregarAntena(Antena*s){
+	if (s==nullptr){
+		throw std::invalid_argument("No se puede asociar una direccion nula");
+	}
+	listaAntenas.push_back(s);
 }
